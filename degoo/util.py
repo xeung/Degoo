@@ -154,7 +154,7 @@ def login(username=None, password=None, verbose=0, redacted=False):
     Logs the user in
     '''
     if username is None:
-        username = input("username: ")
+        username = input("Username: ")
     if password is None:
         password = getpass.getpass()
 

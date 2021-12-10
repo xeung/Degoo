@@ -11,6 +11,7 @@ import hashlib
 import base64
 import humanize
 import requests
+import cloudscraper
 
 from requests import Request, Session
 from shutil import copyfile
@@ -361,10 +362,14 @@ class API:
                 proxies = {"http": "http://127.0.0.1:8866", "https":"http:127.0.0.1:8866"}
                 response = requests.post(self.URL_login, headers=headers, data=json.dumps(CREDS), proxies=proxies, verify=False)
             else:
-                s = Session()
-                r = Request('POST', self.URL_login, data=body, headers=headers)
-                R = r.prepare()
-                response = s.send(R)
+                # 429 Too Many Requests fix
+                scraper = cloudscraper.create_scraper( browser={ 'browser': 'firefox', 'platform': 'windows', 'mobile': False } )
+                response = scraper.post(self.URL_login, headers=headers, data=json.dumps(CREDS))
+
+                # s = Session()
+                # r = Request('POST', self.URL_login, data=body, headers=headers)
+                # R = r.prepare()
+                # response = s.send(R)
 
                 # breakpoint()
                 # response = requests.post(self.URL_login, headers=headers, data=json.dumps(CREDS))
