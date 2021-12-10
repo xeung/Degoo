@@ -265,7 +265,9 @@ class API:
         CS = [10, len(cs)] + cs + [16, 0]
 
         # Finally, Degoo base64 encode is cehcksum.
-        checksum = base64.b64encode(bytes(CS)).decode()
+        # checksum = base64.b64encode(bytes(CS)).decode()
+        # No Download URL issue fix - use url-safe encoding
+        checksum = base64.urlsafe_b64encode(bytes(CS)).decode('UTF-8')
 
         return  checksum
 
